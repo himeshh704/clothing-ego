@@ -8,6 +8,11 @@ export const BRAND_CONFIG = {
     primaryAccent: '#18181b', // Crisp Obsidian Black
     saleAccent: '#dc2626', // Refined Red
   },
+  socials: {
+    whatsapp: '919876543210', // VIP Concierge WhatsApp Number
+    instagram: 'valorandveil',
+    email: 'concierge@valorandveil.com',
+  },
 };
 
 export const CATALOG_PRODUCTS: Product[] = [
