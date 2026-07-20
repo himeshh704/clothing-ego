@@ -15,6 +15,7 @@ import Footer from '@/components/Footer';
 import CartDrawer from '@/components/CartDrawer';
 import QuickViewModal from '@/components/QuickViewModal';
 import SearchDrawer from '@/components/SearchDrawer';
+import BottomTabBar from '@/components/BottomTabBar';
 
 interface CartItem extends Product {
   quantity: number;
@@ -75,7 +76,7 @@ export default function Home() {
   }, [activeTab]);
 
   return (
-    <div className="min-h-screen bg-white dark:bg-[#18181b] text-black dark:text-white font-body selection:bg-black selection:text-white">
+    <div className="min-h-screen bg-white dark:bg-[#18181b] text-black dark:text-white font-body selection:bg-black selection:text-white pb-20 lg:pb-0">
       <AnnouncementBar />
 
       <Header
@@ -144,6 +145,14 @@ export default function Home() {
       )}
 
       <Footer />
+
+      <BottomTabBar
+        activeTab={activeTab}
+        setActiveTab={setActiveTab}
+        cartCount={cart.reduce((sum, item) => sum + item.quantity, 0)}
+        onOpenCart={() => setIsCartOpen(true)}
+        onOpenSearch={() => setIsSearchOpen(true)}
+      />
 
       <CartDrawer
         isOpen={isCartOpen}
