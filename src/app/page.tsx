@@ -23,7 +23,7 @@ interface CartItem extends Product {
 }
 
 export default function Home() {
-  const [activeTab, setActiveTab] = useState<CategoryTab>('women');
+  const [activeTab, setActiveTab] = useState<CategoryTab>('men');
   const [cart, setCart] = useState<CartItem[]>([
     {
       ...CATALOG_PRODUCTS[0],
