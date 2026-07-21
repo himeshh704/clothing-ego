@@ -60,7 +60,7 @@ export default function SearchDrawer({ isOpen, onClose, onQuickView }: SearchDra
                   setQuery(e.target.value);
                   setSelectedTag(null);
                 }}
-                placeholder="SEARCH VALOR & VEIL ARCHIVES (E.G., TRACKSUIT, CARGO, RIBBED)..."
+                placeholder="SEARCH ZEVRO ARCHIVES (E.G., TRACKSUIT, CARGO, RIBBED)..."
                 className="w-full rounded-xl bg-gray-100 dark:bg-white/5 border border-gray-200 dark:border-white/10 px-5 py-4 text-xs sm:text-sm font-bold uppercase tracking-wider text-black dark:text-white placeholder:text-gray-400 focus:outline-none focus:border-black dark:focus:border-white"
               />
               {query && (

@@ -37,7 +37,7 @@ export default function Footer() {
         <div className="mt-8 flex items-center justify-between text-xs font-bold tracking-widest uppercase">
           <div className="flex items-center gap-2">
             <span className="h-4 w-4 rounded-full bg-white flex items-center justify-center text-black font-extrabold text-[9px]">
-              VV
+              Z
             </span>
             <span>{BRAND_CONFIG.name} STUDIO</span>
           </div>

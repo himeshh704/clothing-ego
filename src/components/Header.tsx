@@ -120,17 +120,26 @@ export default function Header({
               </nav>
             </div>
 
-            {/* 2. CENTER: Brand Logo (Never collides because side elements are compact) */}
+            {/* 2. CENTER: Brand Logo */}
             <div
               onClick={() => setActiveTab('women')}
-              className="cursor-pointer text-center flex flex-col items-center justify-center group select-none shrink-0"
+              className="cursor-pointer text-center flex items-center justify-center gap-2 group select-none shrink-0"
             >
-              <span className="font-heading text-base sm:text-2xl font-black tracking-tighter uppercase text-black dark:text-white transition-transform group-hover:scale-105">
-                {BRAND_CONFIG.name}
-              </span>
-              <span className="text-[7px] sm:text-[9px] font-mono tracking-[0.2em] text-gray-400 uppercase -mt-1 block font-bold">
-                {BRAND_CONFIG.tagline}
-              </span>
+              <Image
+                src="/zevro-logo.svg"
+                alt="ZEVRO Logo"
+                width={36}
+                height={36}
+                className="w-8 h-8 sm:w-10 sm:h-10 object-contain transition-transform group-hover:scale-105 rounded-md invert dark:invert-0"
+              />
+              <div className="flex flex-col items-start justify-center">
+                <span className="font-heading text-lg sm:text-2xl font-black tracking-wider uppercase text-black dark:text-white transition-transform group-hover:scale-105 leading-none">
+                  {BRAND_CONFIG.name}
+                </span>
+                <span className="text-[7px] sm:text-[9px] font-mono tracking-[0.25em] text-gray-400 uppercase font-bold mt-0.5">
+                  WEAR YOUR EDGE
+                </span>
+              </div>
             </div>
 
             {/* 3. RIGHT: Action Triggers (Search & Shopping Bag) */}
@@ -432,7 +441,7 @@ export default function Header({
                 </span>
               </div>
               <div className="text-[10px] font-mono text-center text-gray-400 pt-1 border-t border-gray-200/60 dark:border-white/5">
-                VALOR &amp; VEIL ENG. LAB — LONDON / TOKYO / NYC
+                ZEVRO ENG. LAB — LONDON / TOKYO / NYC
               </div>
             </div>
 

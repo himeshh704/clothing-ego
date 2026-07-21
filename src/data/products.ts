@@ -1,8 +1,8 @@
 import { Product } from '../types/catalog';
 
 export const BRAND_CONFIG = {
-  name: 'VALOR & VEIL',
-  tagline: 'Engineered Luxury Streetwear & Athletic Silhouettes',
+  name: 'ZEVRO',
+  tagline: 'WEAR YOUR EDGE — Luxury Athleisure & Streetwear',
   announcement: 'COMPLIMENTARY EXPRESS DELIVERY ON ORDERS OVER ₹2,500 | EASY 7-DAY RETURNS',
   colors: {
     primaryAccent: '#18181b', // Crisp Obsidian Black
@@ -10,8 +10,8 @@ export const BRAND_CONFIG = {
   },
   socials: {
     whatsapp: '919876543210', // VIP Concierge WhatsApp Number
-    instagram: 'valorandveil',
-    email: 'concierge@valorandveil.com',
+    instagram: 'zevroofficial',
+    email: 'concierge@zevro.com',
   },
 };
 

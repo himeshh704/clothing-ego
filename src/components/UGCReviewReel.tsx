@@ -72,7 +72,7 @@ export default function UGCReviewReel() {
             rel="noopener noreferrer"
             className="text-xs font-bold uppercase tracking-widest text-black dark:text-white border-b border-black dark:border-white pb-1 hover:opacity-70 transition-opacity self-start sm:self-auto"
           >
-            TAG @VALORANDVEIL TO GET FEATURED ↗
+            TAG @ZEVROOFFICIAL TO GET FEATURED ↗
           </a>
         </div>
 
