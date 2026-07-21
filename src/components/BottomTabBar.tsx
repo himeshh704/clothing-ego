@@ -46,7 +46,7 @@ export default function BottomTabBar({
   ];
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white/95 dark:bg-[#18181b]/95 backdrop-blur-2xl border-t border-gray-200/80 dark:border-white/10 shadow-[0_-10px_25px_-5px_rgba(0,0,0,0.1)] pb-safe font-body">
+    <div className="fixed bottom-0 left-0 right-0 z-40 lg:hidden bg-white dark:bg-[#18181b] border-t border-gray-200/80 dark:border-white/10 shadow-lg pb-safe font-body transform-gpu">
       <div className="grid grid-cols-5 h-16 items-center justify-around px-1">
         
         {/* Category Tabs: Women, Men, Archives */}

@@ -38,10 +38,18 @@ export default function Header({
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
 
-  // Track scrolling for dynamic shadow / blur intensifying
+  // Track scrolling with state threshold check to prevent frame drops
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const isScrolled = window.scrollY > 20;
+          setScrolled((prev) => (prev !== isScrolled ? isScrolled : prev));
+          ticking = false;
+        });
+        ticking = true;
+      }
     };
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
@@ -71,10 +79,10 @@ export default function Header({
     <>
       {/* Main Sticky Luxury Header */}
       <header 
-        className={`sticky top-0 z-40 w-full transition-all duration-300 font-body ${
+        className={`sticky top-0 z-40 w-full font-body transform-gpu transition-colors duration-200 ${
           scrolled 
-            ? 'bg-white/95 dark:bg-[#18181b]/95 backdrop-blur-2xl shadow-[0_4px_25px_-5px_rgba(0,0,0,0.1)] border-b border-gray-200/80 dark:border-white/10' 
-            : 'bg-white/90 dark:bg-[#18181b]/90 backdrop-blur-xl border-b border-gray-100 dark:border-white/5'
+            ? 'bg-white dark:bg-[#18181b] shadow-md border-b border-gray-200/80 dark:border-white/10' 
+            : 'bg-white/95 dark:bg-[#18181b]/95 border-b border-gray-100 dark:border-white/5'
         }`}
       >
         <div className="mx-auto max-w-7xl px-3 sm:px-6 lg:px-8">

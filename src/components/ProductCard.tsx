@@ -28,6 +28,7 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
           alt={product.title}
           fill
           sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 20vw"
+          quality={80}
           className="object-cover object-top transition-transform duration-500 group-hover:scale-105"
         />
 
