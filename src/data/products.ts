@@ -187,7 +187,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     price: 3499,
     compareAtPrice: 5199,
     category: 'men',
-    badge: 'EXCLUSIVE',
+    badge: 'NEW',
     imagePrimary: '/products/deconstructed-linen-overshirt.jpg',
     imageSecondary: '/products/deconstructed-linen-overshirt.jpg',
     swatches: [
