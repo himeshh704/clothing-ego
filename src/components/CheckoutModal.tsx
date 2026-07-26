@@ -48,12 +48,20 @@ export default function CheckoutModal({
     [items]
   );
 
+  const totalOrderAmount = useMemo(() => {
+    return paymentMethod === 'PREPAID'
+      ? subtotal
+      : subtotal + BRAND_CONFIG.payments.codAdvanceFee;
+  }, [paymentMethod, subtotal]);
+
   const amountToPayNow = useMemo(() => {
-    return paymentMethod === 'PREPAID' ? subtotal : BRAND_CONFIG.payments.codAdvanceFee;
+    return paymentMethod === 'PREPAID'
+      ? subtotal
+      : BRAND_CONFIG.payments.codAdvanceFee;
   }, [paymentMethod, subtotal]);
 
   const balanceOnDelivery = useMemo(() => {
-    return paymentMethod === 'COD' ? Math.max(0, subtotal - BRAND_CONFIG.payments.codAdvanceFee) : 0;
+    return paymentMethod === 'COD' ? subtotal : 0;
   }, [paymentMethod, subtotal]);
 
   // UPI Deep Link & QR Code URL
@@ -125,8 +133,8 @@ export default function CheckoutModal({
 
     const paymentHeader =
       paymentMethod === 'PREPAID'
-        ? `✅ *PREPAID FULL PAYMENT (UPI)*\n• Amount Paid: ₹ ${subtotal.toLocaleString('en-IN')}\n• Balance on Delivery: ₹ 0`
-        : `🚚 *CASH ON DELIVERY (COD)*\n• Advance Paid via UPI: ₹ ${BRAND_CONFIG.payments.codAdvanceFee}\n• Remaining Balance on Delivery: ₹ ${balanceOnDelivery.toLocaleString('en-IN')}`;
+        ? `✅ *PREPAID FULL PAYMENT (UPI)*\n• Total Order Value: ₹ ${subtotal.toLocaleString('en-IN')}\n• Amount Paid via UPI: ₹ ${subtotal.toLocaleString('en-IN')}\n• Balance on Delivery: ₹ 0`
+        : `🚚 *CASH ON DELIVERY (COD)*\n• Items Subtotal: ₹ ${subtotal.toLocaleString('en-IN')}\n• Extra COD Fee: ₹ ${BRAND_CONFIG.payments.codAdvanceFee}\n• Total Order Value: ₹ ${totalOrderAmount.toLocaleString('en-IN')}\n• Advance Paid via UPI: ₹ ${BRAND_CONFIG.payments.codAdvanceFee}\n• Balance Due on Delivery: ₹ ${balanceOnDelivery.toLocaleString('en-IN')}`;
 
     return [
       `🚨 *NEW ZEVRO STORE ORDER APPROVAL REQUEST*`,
@@ -391,14 +399,15 @@ export default function CheckoutModal({
                       <span>🚚 CASH ON DELIVERY (COD)</span>
                     </span>
                     <span className="rounded-full bg-amber-500/20 text-amber-600 dark:text-amber-400 px-2 py-0.5 text-[9px] font-bold">
-                      ₹ 180 ADVANCE REQUIRED
+                      + ₹ 180 EXTRA COD FEE
                     </span>
                   </div>
                   <p className="text-[11px] text-gray-500 dark:text-gray-400">
-                    Pay <span className="font-bold text-black dark:text-white">₹ 180 advance fee now</span> to confirm shipping. Balance of <span className="font-bold text-black dark:text-white">₹ {balanceOnDelivery.toLocaleString('en-IN')}</span> paid on delivery.
+                    Pay <span className="font-bold text-black dark:text-white">₹ 180 advance COD fee now</span> via UPI QR code. Remaining order balance of <span className="font-bold text-black dark:text-white">₹ {subtotal.toLocaleString('en-IN')}</span> paid on delivery.
                   </p>
-                  <div className="mt-3 pt-2 border-t border-gray-200 dark:border-white/10 font-heading text-sm font-black text-black dark:text-white flex justify-between">
+                  <div className="mt-3 pt-2 border-t border-gray-200 dark:border-white/10 font-heading text-xs font-black text-black dark:text-white flex justify-between">
                     <span>Pay Advance Now: ₹ {BRAND_CONFIG.payments.codAdvanceFee}</span>
+                    <span>Due on Delivery: ₹ {subtotal.toLocaleString('en-IN')}</span>
                   </div>
                 </div>
               </div>
