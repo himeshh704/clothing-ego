@@ -67,7 +67,8 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
     }
     setShowIgModal(true);
 
-    const igUrl = `https://ig.me/m/${BRAND_CONFIG.socials.instagram}`;
+    const encodedMsg = encodeURIComponent(messageText);
+    const igUrl = `https://ig.me/m/${BRAND_CONFIG.socials.instagram}?text=${encodedMsg}`;
     window.open(igUrl, '_blank');
   };
 
@@ -393,21 +394,21 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
 
             <div className="space-y-2 pt-1">
               <a
-                href={`https://ig.me/m/${BRAND_CONFIG.socials.instagram}`}
+                href={`https://ig.me/m/${BRAND_CONFIG.socials.instagram}?text=${encodeURIComponent(igMessageText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md flex items-center justify-center gap-2 text-center"
               >
-                <span>OPEN INSTAGRAM DM APP →</span>
+                <span>OPEN INSTAGRAM DM WITH PRE-FILLED TEXT →</span>
               </a>
 
               <a
-                href={`https://instagram.com/${BRAND_CONFIG.socials.instagram}`}
+                href={`https://www.instagram.com/direct/new/?text=${encodeURIComponent(igMessageText)}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full rounded-xl bg-gray-100 dark:bg-white/10 text-black dark:text-white py-2.5 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-center"
               >
-                <span>Open @{BRAND_CONFIG.socials.instagram} Web Profile</span>
+                <span>Direct Web DM (Pre-Filled)</span>
               </a>
             </div>
           </div>
