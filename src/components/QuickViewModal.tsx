@@ -19,12 +19,17 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
   const [weightKg, setWeightKg] = useState('70');
   const [fitRecommendation, setFitRecommendation] = useState<string | null>(null);
 
+  const [imageFitMode, setImageFitMode] = useState<'contain' | 'cover'>('contain');
+  const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+
   React.useEffect(() => {
     if (product) {
       setSelectedSize(product.sizes[0] || 'M');
       setActiveImage(product.imagePrimary);
       setShowFitCalc(false);
       setFitRecommendation(null);
+      setImageFitMode('contain');
+      setIsLightBoxOpen(false);
     }
   }, [product]);
 
@@ -93,15 +98,37 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
           ✕
         </button>
 
-        {/* Gallery Section */}
-        <div className="relative aspect-[4/5] sm:aspect-square md:aspect-auto md:h-full bg-gray-100 dark:bg-gray-900 overflow-hidden">
+        {/* Gallery Section - Full view mode by default */}
+        <div className="relative aspect-[4/5] sm:aspect-square md:aspect-auto md:h-full bg-gray-900/10 dark:bg-gray-950 flex items-center justify-center overflow-hidden group">
           <Image
             src={activeImage || product.imagePrimary || '/products/spiderman-oversized-tee-men.jpg'}
             alt={product.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
-            className="object-cover object-top transition-all duration-300"
+            className={`transition-all duration-300 cursor-zoom-in ${
+              imageFitMode === 'contain' ? 'object-contain p-2 sm:p-6' : 'object-cover object-top'
+            }`}
+            onClick={() => setIsLightBoxOpen(true)}
           />
+
+          {/* Toggle Fit Mode & Fullscreen Lightbox Buttons */}
+          <div className="absolute top-3 left-3 flex items-center gap-2 z-10">
+            <button
+              type="button"
+              onClick={() => setImageFitMode(imageFitMode === 'contain' ? 'cover' : 'contain')}
+              className="rounded-full bg-black/70 backdrop-blur-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-black transition-all shadow"
+            >
+              {imageFitMode === 'contain' ? '🔎 COVER VIEW' : '🖼️ FULL VIEW (100%)'}
+            </button>
+            <button
+              type="button"
+              onClick={() => setIsLightBoxOpen(true)}
+              className="rounded-full bg-black/70 backdrop-blur-md px-3 py-1.5 text-[10px] font-bold uppercase tracking-wider text-white hover:bg-black transition-all shadow"
+            >
+              🔍 FULLSCREEN
+            </button>
+          </div>
+
           <div className="absolute bottom-3 left-3 flex gap-2 z-10">
             {Array.from(new Set([product.imagePrimary, product.imageSecondary].filter(Boolean))).map((img, idx) => (
               <button
@@ -282,6 +309,35 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
           </div>
         </div>
       </div>
+
+      {/* Fullscreen Lightbox Modal for 100% Uncropped Garment View */}
+      {isLightBoxOpen && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/95 backdrop-blur-xl p-4 sm:p-8 animate-in fade-in duration-200">
+          <button
+            type="button"
+            onClick={() => setIsLightBoxOpen(false)}
+            className="absolute top-6 right-6 z-50 flex h-12 w-12 items-center justify-center rounded-full bg-white/20 text-white font-bold text-lg hover:bg-white/40 transition-colors"
+            aria-label="Close Lightbox"
+          >
+            ✕
+          </button>
+          <div className="relative w-full h-full max-w-5xl max-h-[90vh] flex items-center justify-center">
+            <Image
+              src={activeImage || product.imagePrimary}
+              alt={product.title}
+              fill
+              sizes="100vw"
+              className="object-contain p-2"
+              priority
+            />
+          </div>
+          <div className="absolute bottom-6 inset-x-0 text-center">
+            <span className="inline-block rounded-full bg-white/15 px-4 py-2 text-xs font-bold text-white uppercase tracking-widest backdrop-blur-md">
+              {product.title} — 100% FULL GARMENT VIEW
+            </span>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
