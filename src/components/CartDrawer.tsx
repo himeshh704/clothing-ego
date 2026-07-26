@@ -28,6 +28,8 @@ export default function CartDrawer({
   onClear,
 }: CartDrawerProps) {
   const [copiedToast, setCopiedToast] = React.useState(false);
+  const [showIgModal, setShowIgModal] = React.useState(false);
+  const [igMessageText, setIgMessageText] = React.useState('');
 
   if (!isOpen) return null;
 
@@ -37,21 +39,26 @@ export default function CartDrawer({
   const handleInstagramOrder = () => {
     const lines = items.map(
       (item, idx) =>
-        `${idx + 1}. ${item.title} (Size: ${item.selectedSize}, Qty: ${item.quantity}) - ₹ ${(item.price * item.quantity).toLocaleString('en-IN')}`
+        `• ${item.title}\n   Size: ${item.selectedSize} | Qty: ${item.quantity} | ₹ ${(item.price * item.quantity).toLocaleString('en-IN')}`
     );
 
     const messageText = [
       `Hey @${BRAND_CONFIG.socials.instagram}! 👋 I want to buy these items:`,
       ...lines,
-      `Total: ₹ ${subtotal.toLocaleString('en-IN')}`,
-      `Please send payment link and delivery details!`
+      `\n----------------------------`,
+      `TOTAL ORDER PRICE: ₹ ${subtotal.toLocaleString('en-IN')}`,
+      `----------------------------`,
+      `Please confirm order & send payment link!`
     ].join('\n');
+
+    setIgMessageText(messageText);
 
     if (navigator.clipboard) {
       navigator.clipboard.writeText(messageText);
       setCopiedToast(true);
       setTimeout(() => setCopiedToast(false), 4000);
     }
+    setShowIgModal(true);
 
     const igUrl = `https://ig.me/m/${BRAND_CONFIG.socials.instagram}`;
     window.open(igUrl, '_blank');
@@ -207,6 +214,74 @@ export default function CartDrawer({
 
         </div>
       </div>
+
+      {/* Instagram Order Sheet Modal */}
+      {showIgModal && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-md p-4 animate-in fade-in duration-200">
+          <div className="relative w-full max-w-md rounded-2xl bg-white dark:bg-[#18181b] p-5 sm:p-6 shadow-2xl border border-gray-200 dark:border-white/10 space-y-4 font-body">
+            <div className="flex items-center justify-between border-b border-gray-200 dark:border-white/10 pb-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xl">📸</span>
+                <h3 className="font-heading text-sm font-black uppercase text-black dark:text-white">
+                  Buy via Instagram DM (@{BRAND_CONFIG.socials.instagram})
+                </h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setShowIgModal(false)}
+                className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-100 dark:bg-white/10 text-black dark:text-white font-bold text-xs"
+              >
+                ✕
+              </button>
+            </div>
+
+            <div className="rounded-xl bg-gray-50 dark:bg-white/5 border border-gray-200 dark:border-white/10 p-3.5 space-y-1.5 text-xs">
+              <div className="font-bold text-gray-500 uppercase text-[10px]">TOTAL ITEMS: {items.length}</div>
+              <div className="flex justify-between font-bold text-black dark:text-white pt-1">
+                <span>ESTIMATED TOTAL:</span>
+                <span className="text-emerald-600 dark:text-emerald-400 font-extrabold text-sm">₹ {subtotal.toLocaleString('en-IN')}</span>
+              </div>
+            </div>
+
+            <div>
+              <div className="flex justify-between items-center mb-1">
+                <label className="text-[10px] font-bold uppercase text-gray-400">
+                  Order Summary Message:
+                </label>
+                <span className="text-[10px] font-bold text-emerald-600 dark:text-emerald-400">
+                  ✓ Copied to clipboard
+                </span>
+              </div>
+              <textarea
+                readOnly
+                value={igMessageText}
+                rows={6}
+                className="w-full rounded-lg bg-gray-100 dark:bg-black/60 border border-gray-200 dark:border-white/10 p-3 text-xs font-mono text-black dark:text-white focus:outline-none"
+              />
+            </div>
+
+            <div className="space-y-2 pt-1">
+              <a
+                href={`https://ig.me/m/${BRAND_CONFIG.socials.instagram}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md flex items-center justify-center gap-2 text-center"
+              >
+                <span>OPEN INSTAGRAM DM APP →</span>
+              </a>
+
+              <a
+                href={`https://instagram.com/${BRAND_CONFIG.socials.instagram}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full rounded-xl bg-gray-100 dark:bg-white/10 text-black dark:text-white py-2.5 text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 text-center"
+              >
+                <span>Open @{BRAND_CONFIG.socials.instagram} Web Profile</span>
+              </a>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
