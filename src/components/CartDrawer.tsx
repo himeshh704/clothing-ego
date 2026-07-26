@@ -27,12 +27,12 @@ export default function CartDrawer({
   onRemove,
   onClear,
 }: CartDrawerProps) {
+  const [copiedToast, setCopiedToast] = React.useState(false);
+
   if (!isOpen) return null;
 
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const savings = items.reduce((sum, item) => sum + (item.compareAtPrice - item.price) * item.quantity, 0);
-
-  const [copiedToast, setCopiedToast] = React.useState(false);
 
   const handleInstagramOrder = () => {
     const lines = items.map(

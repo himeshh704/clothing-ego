@@ -18,9 +18,9 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
   const [heightCm, setHeightCm] = useState('175');
   const [weightKg, setWeightKg] = useState('70');
   const [fitRecommendation, setFitRecommendation] = useState<string | null>(null);
-
   const [imageFitMode, setImageFitMode] = useState<'contain' | 'cover'>('contain');
   const [isLightBoxOpen, setIsLightBoxOpen] = useState(false);
+  const [copiedToast, setCopiedToast] = useState(false);
 
   React.useEffect(() => {
     if (product) {
@@ -30,6 +30,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
       setFitRecommendation(null);
       setImageFitMode('contain');
       setIsLightBoxOpen(false);
+      setCopiedToast(false);
     }
   }, [product]);
 
@@ -47,8 +48,6 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
     setSelectedSize(rec);
     setFitRecommendation(`Our silhouette algorithm recommends SIZE ${rec} for a tailored street drape based on ${h}cm and ${w}kg.`);
   };
-
-  const [copiedToast, setCopiedToast] = useState(false);
 
   const handleInstagramEnquire = () => {
     const sizeToUse = selectedSize || product.sizes[0] || 'M';
