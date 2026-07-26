@@ -17,6 +17,8 @@ import QuickViewModal from '@/components/QuickViewModal';
 import SearchDrawer from '@/components/SearchDrawer';
 import BottomTabBar from '@/components/BottomTabBar';
 
+import CheckoutModal from '@/components/CheckoutModal';
+
 interface CartItem extends Product {
   quantity: number;
   selectedSize: string;
@@ -33,6 +35,7 @@ export default function Home() {
   ]);
   const [isCartOpen, setIsCartOpen] = useState(false);
   const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [isCheckoutOpen, setIsCheckoutOpen] = useState(false);
   const [quickViewProduct, setQuickViewProduct] = useState<Product | null>(null);
 
   const handleAddToCart = (product: Product, size = 'M') => {
@@ -161,18 +164,34 @@ export default function Home() {
         onUpdateQuantity={handleUpdateQuantity}
         onRemove={handleRemoveItem}
         onClear={handleClearCart}
+        onOpenCheckout={() => {
+          setIsCartOpen(false);
+          setIsCheckoutOpen(true);
+        }}
       />
 
       <QuickViewModal
         product={quickViewProduct}
         onClose={() => setQuickViewProduct(null)}
         onAddToCart={handleAddToCart}
+        onOpenCheckout={(product, size) => {
+          handleAddToCart(product, size);
+          setQuickViewProduct(null);
+          setIsCheckoutOpen(true);
+        }}
       />
 
       <SearchDrawer
         isOpen={isSearchOpen}
         onClose={() => setIsSearchOpen(false)}
         onQuickView={(p) => setQuickViewProduct(p)}
+      />
+
+      <CheckoutModal
+        isOpen={isCheckoutOpen}
+        onClose={() => setIsCheckoutOpen(false)}
+        items={cart}
+        onClearCart={handleClearCart}
       />
     </div>
   );

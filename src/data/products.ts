@@ -3,16 +3,23 @@ import { Product } from '../types/catalog';
 export const BRAND_CONFIG = {
   name: 'ZEVRO',
   tagline: 'WEAR YOUR EDGE — Luxury Athleisure & Streetwear',
-  announcement: 'COMPLIMENTARY EXPRESS SHIPPING ON ALL INSTAGRAM DIRECT ORDERS | 7-DAY RETURNS',
+  announcement: 'COMPLIMENTARY EXPRESS SHIPPING | INSTANT UPI QR PAYMENTS & COD AVAILABLE | 7-DAY RETURNS',
   colors: {
     primaryAccent: '#18181b', // Crisp Obsidian Black
     saleAccent: '#dc2626', // Refined Red
     instagramAccent: '#E1306C', // Instagram Brand Accent
+    whatsappAccent: '#25D366', // WhatsApp Green
+  },
+  payments: {
+    upiId: 'zevro.store@upi', // Store UPI ID for QR payment
+    codAdvanceFee: 180, // ₹180 advance required for Cash on Delivery orders
   },
   socials: {
-    instagram: 'Zevro_store', // Instagram Handle provided by user
+    instagram: 'Zevro_store', // Instagram Handle for Customer Support
     instagramUrl: 'https://instagram.com/Zevro_store',
-    instagramDirectUrl: 'https://ig.me/m/Zevro_store', // Direct DM page
+    instagramDirectUrl: 'https://ig.me/m/Zevro_store', // Customer Support DM
+    whatsappNumber: '919876543210', // WhatsApp for Order Approval Submission
+    whatsappDisplay: '+91 98765 43210',
     email: 'concierge@zevro.com',
   },
 };

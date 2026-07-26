@@ -17,6 +17,7 @@ interface CartDrawerProps {
   onUpdateQuantity: (id: string, selectedSize: string, delta: number) => void;
   onRemove: (id: string, selectedSize: string) => void;
   onClear: () => void;
+  onOpenCheckout?: () => void;
 }
 
 export default function CartDrawer({
@@ -26,6 +27,7 @@ export default function CartDrawer({
   onUpdateQuantity,
   onRemove,
   onClear,
+  onOpenCheckout,
 }: CartDrawerProps) {
   const [copiedToast, setCopiedToast] = React.useState(false);
   const [showIgModal, setShowIgModal] = React.useState(false);
@@ -191,24 +193,37 @@ export default function CartDrawer({
                 </div>
               </div>
 
-              {/* Instagram Direct Checkout Button */}
-              {copiedToast && (
-                <div className="p-2.5 rounded-lg bg-pink-500/10 border border-pink-500/20 text-[11px] font-bold text-pink-600 dark:text-pink-400 text-center animate-pulse">
-                  📋 Order details copied! Opening Instagram DM (@{BRAND_CONFIG.socials.instagram})...
-                </div>
-              )}
+              {/* Main Checkout Button */}
               <button
-                onClick={handleInstagramOrder}
-                className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 active:scale-95 py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all flex items-center justify-center gap-2 sm:gap-2.5 min-h-[52px]"
+                type="button"
+                onClick={() => {
+                  if (onOpenCheckout) {
+                    onOpenCheckout();
+                  } else {
+                    handleInstagramOrder();
+                  }
+                }}
+                className="w-full rounded-xl bg-black dark:bg-white text-white dark:text-black hover:opacity-95 active:scale-95 py-4 text-xs sm:text-sm font-bold uppercase tracking-widest shadow-xl transition-all flex items-center justify-center gap-2 sm:gap-2.5 min-h-[52px]"
               >
-                <span className="text-base">📸</span>
-                <span>BUY VIA INSTAGRAM DM →</span>
+                <span className="text-base">🔒</span>
+                <span>PROCEED TO CHECKOUT (UPI / COD) →</span>
               </button>
 
-              <div className="flex items-center justify-center gap-2 text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                <span>DIRECT INSTAGRAM MSG (@{BRAND_CONFIG.socials.instagram})</span>
+              {/* Instagram Concierge Customer Support Link */}
+              <button
+                type="button"
+                onClick={handleInstagramOrder}
+                className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white flex items-center justify-center gap-2"
+              >
+                <span>📸 Need Support? Ask IG Concierge (@{BRAND_CONFIG.socials.instagram})</span>
+              </button>
+
+              <div className="flex items-center justify-center gap-2 text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest pt-1">
+                <span>INSTANT UPI QR</span>
                 <span>•</span>
-                <span>INSTANT PAY & DISPATCH</span>
+                <span>COD WITH ₹180 ADVANCE</span>
+                <span>•</span>
+                <span>WHATSAPP APPROVAL</span>
               </div>
             </div>
           )}

@@ -9,9 +9,15 @@ interface QuickViewModalProps {
   product: Product | null;
   onClose: () => void;
   onAddToCart: (product: Product, selectedSize: string) => void;
+  onOpenCheckout?: (product: Product, selectedSize: string) => void;
 }
 
-export default function QuickViewModal({ product, onClose, onAddToCart }: QuickViewModalProps) {
+export default function QuickViewModal({
+  product,
+  onClose,
+  onAddToCart,
+  onOpenCheckout,
+}: QuickViewModalProps) {
   const [selectedSize, setSelectedSize] = useState<string>('');
   const [activeImage, setActiveImage] = useState<string>('');
   const [showFitCalc, setShowFitCalc] = useState(false);
@@ -294,20 +300,36 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
                   onAddToCart(product, selectedSize || product.sizes[0] || 'M');
                   onClose();
                 }}
-                style={{ backgroundColor: BRAND_CONFIG.colors.primaryAccent }}
-                className="w-full min-h-[48px] sm:min-h-[50px] rounded-xl py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
+                className="w-full min-h-[48px] rounded-xl bg-gray-100 dark:bg-white/10 text-black dark:text-white py-3.5 text-xs font-bold uppercase tracking-widest shadow hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
               >
                 <span>ADD TO BAG ({selectedSize || product.sizes[0] || 'M'})</span>
               </button>
 
               <button
                 type="button"
-                onClick={handleInstagramEnquire}
-                className="w-full min-h-[48px] sm:min-h-[50px] rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 active:scale-95 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all flex items-center justify-center gap-2"
+                onClick={() => {
+                  const sizeToUse = selectedSize || product.sizes[0] || 'M';
+                  if (onOpenCheckout) {
+                    onOpenCheckout(product, sizeToUse);
+                  } else {
+                    onAddToCart(product, sizeToUse);
+                    onClose();
+                  }
+                }}
+                style={{ backgroundColor: BRAND_CONFIG.colors.primaryAccent }}
+                className="w-full min-h-[48px] rounded-xl py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md hover:opacity-90 active:scale-95 transition-all flex items-center justify-center gap-2"
               >
-                <span>📸 ORDER ON INSTAGRAM</span>
+                <span>🔒 CHECKOUT & PAY (UPI/COD) →</span>
               </button>
             </div>
+
+            <button
+              type="button"
+              onClick={handleInstagramEnquire}
+              className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 py-2.5 text-[11px] font-bold uppercase tracking-wider text-white flex items-center justify-center gap-2"
+            >
+              <span>📸 24/7 Support: Ask IG Concierge (@{BRAND_CONFIG.socials.instagram})</span>
+            </button>
 
             <div className="flex items-center justify-center gap-3 sm:gap-4 text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest">
               <span>Complimentary Air Delivery</span>
