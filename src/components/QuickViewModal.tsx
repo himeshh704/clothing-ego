@@ -96,17 +96,21 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
         {/* Gallery Section */}
         <div className="relative aspect-[4/5] sm:aspect-square md:aspect-auto md:h-full bg-gray-100 dark:bg-gray-900 overflow-hidden">
           <Image
-            src={activeImage || product.imagePrimary}
+            src={activeImage || product.imagePrimary || '/products/spiderman-oversized-tee-men.jpg'}
             alt={product.title}
             fill
             sizes="(max-width: 768px) 100vw, 50vw"
             className="object-cover object-top transition-all duration-300"
           />
           <div className="absolute bottom-3 left-3 flex gap-2 z-10">
-            {[product.imagePrimary, product.imageSecondary].map((img, idx) => (
+            {Array.from(new Set([product.imagePrimary, product.imageSecondary].filter(Boolean))).map((img, idx) => (
               <button
                 key={idx}
-                onClick={() => setActiveImage(img)}
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setActiveImage(img);
+                }}
                 className={`relative h-14 w-12 rounded-md overflow-hidden border-2 transition-all shadow ${
                   activeImage === img ? 'border-black dark:border-white scale-105' : 'border-transparent opacity-70 hover:opacity-100'
                 }`}
@@ -156,6 +160,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
               <div className="flex justify-between items-center text-xs font-bold uppercase tracking-wider mb-2">
                 <span>Select Size:</span>
                 <button
+                  type="button"
                   onClick={() => setShowFitCalc(!showFitCalc)}
                   className="text-emerald-600 underline font-extrabold hover:opacity-80 transition-opacity py-1"
                 >
@@ -190,6 +195,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
                     </div>
                   </div>
                   <button
+                    type="button"
                     onClick={calculateFit}
                     style={{ backgroundColor: BRAND_CONFIG.colors.primaryAccent }}
                     className="w-full h-11 rounded-md text-[11px] font-bold uppercase tracking-widest text-white shadow hover:opacity-90 active:scale-95 transition-transform"
@@ -208,6 +214,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
                 {product.sizes.map((size) => (
                   <button
                     key={size}
+                    type="button"
                     onClick={() => setSelectedSize(size)}
                     style={selectedSize === size ? { backgroundColor: BRAND_CONFIG.colors.primaryAccent } : undefined}
                     className={`h-11 min-w-[48px] sm:min-w-[52px] rounded-lg px-4 text-xs font-bold uppercase transition-all active:scale-95 ${
@@ -247,6 +254,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
             )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <button
+                type="button"
                 onClick={() => {
                   onAddToCart(product, selectedSize || product.sizes[0] || 'M');
                   onClose();
@@ -258,6 +266,7 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
               </button>
 
               <button
+                type="button"
                 onClick={handleInstagramEnquire}
                 className="w-full min-h-[48px] sm:min-h-[50px] rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 active:scale-95 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all flex items-center justify-center gap-2"
               >

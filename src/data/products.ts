@@ -273,7 +273,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     emiText: 'or ₹266/Month with 0% interest',
   },
   {
-    id: 'm-205',
+    id: 'm-208',
     title: 'Anime Flame Aura Heavyweight Oversized Tee',
     price: 849,
     compareAtPrice: 1499,
@@ -289,7 +289,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     emiText: 'or ₹283/Month with 0% interest',
   },
   {
-    id: 'm-206',
+    id: 'm-209',
     title: 'Architectural Monogram Zip Vest',
     price: 1199,
     compareAtPrice: 1999,

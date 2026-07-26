@@ -59,14 +59,22 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
           onClick={(e) => e.stopPropagation()}
         >
           <button
-            onClick={() => onAddToCart(product, product.sizes[0] || 'M')}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart(product, product.sizes[0] || 'M');
+            }}
             style={{ backgroundColor: BRAND_CONFIG.colors.primaryAccent }}
             className="flex-1 rounded-md text-white py-2.5 sm:py-2.5 text-center text-[10px] sm:text-[11px] font-black tracking-widest uppercase shadow-md hover:opacity-90 active:scale-95 transition-all min-h-[44px] flex items-center justify-center"
           >
             + ADD
           </button>
           <button
-            onClick={() => onQuickView && onQuickView(product)}
+            type="button"
+            onClick={(e) => {
+              e.stopPropagation();
+              onQuickView && onQuickView(product);
+            }}
             className="flex h-11 w-11 sm:h-10 sm:w-10 flex-shrink-0 items-center justify-center rounded-md bg-white/95 dark:bg-black/95 text-black dark:text-white shadow-md hover:bg-gray-100 active:scale-95 transition-colors text-xs font-bold min-h-[44px] min-w-[44px]"
             aria-label="Quick View"
           >
@@ -101,7 +109,11 @@ export default function ProductCard({ product, onAddToCart, onQuickView }: Produ
           {product.swatches.map((swatch, idx) => (
             <button
               key={idx}
-              onClick={() => setSelectedSwatch(swatch.colorHex)}
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                setSelectedSwatch(swatch.colorHex);
+              }}
               style={{ backgroundColor: swatch.colorHex }}
               className={`h-5 w-5 sm:h-4 sm:w-4 rounded-full border border-gray-300 shadow-2xs transition-transform min-h-[20px] min-w-[20px] ${
                 selectedSwatch === swatch.colorHex ? 'ring-2 ring-black dark:ring-white scale-110' : 'active:scale-95'
