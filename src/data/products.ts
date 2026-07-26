@@ -171,7 +171,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     category: 'men',
     badge: 'BEST SELLER',
     imagePrimary: '/products/spiderman-oversized-tee-men.jpg',
-    imageSecondary: '/products/spiderman-oversized-tee-men.jpg',
+    imageSecondary: '/products/spiderman-oversized-tee-men-back.jpg',
     swatches: [
       { name: 'Washed Black', colorHex: '#18181b' },
       { name: 'Vintage Slate', colorHex: '#3f3f46' },
@@ -187,7 +187,7 @@ export const CATALOG_PRODUCTS: Product[] = [
     category: 'men',
     badge: 'NEW',
     imagePrimary: '/products/spiderman-web-hoodie-men.jpg',
-    imageSecondary: '/products/spiderman-web-hoodie-men.jpg',
+    imageSecondary: '/products/spiderman-web-hoodie-men-back.jpg',
     swatches: [
       { name: 'Obsidian Black', colorHex: '#18181b' },
       { name: 'Deep Crimson', colorHex: '#7f1d1d' },
