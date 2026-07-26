@@ -32,24 +32,29 @@ export default function CartDrawer({
   const subtotal = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const savings = items.reduce((sum, item) => sum + (item.compareAtPrice - item.price) * item.quantity, 0);
 
-  const handleWhatsAppOrder = () => {
+  const [copiedToast, setCopiedToast] = React.useState(false);
+
+  const handleInstagramOrder = () => {
     const lines = items.map(
       (item, idx) =>
-        `${idx + 1}. *${item.title}*\n   • Size: ${item.selectedSize}\n   • Qty: ${item.quantity}\n   • Price: ₹ ${(item.price * item.quantity).toLocaleString('en-IN')}`
+        `${idx + 1}. ${item.title} (Size: ${item.selectedSize}, Qty: ${item.quantity}) - ₹ ${(item.price * item.quantity).toLocaleString('en-IN')}`
     );
 
     const messageText = [
-      `Hello *${BRAND_CONFIG.name} Concierge*! 👋`,
-      `I would like to place an order for the following archive items:\n`,
+      `Hey @${BRAND_CONFIG.socials.instagram}! 👋 I want to buy these items:`,
       ...lines,
-      `\n----------------------------`,
-      `*Total Estimate:* ₹ ${subtotal.toLocaleString('en-IN')}`,
-      `----------------------------`,
-      `Please confirm availability, dispatch details, and payment instructions via WhatsApp.`
+      `Total: ₹ ${subtotal.toLocaleString('en-IN')}`,
+      `Please send payment link and delivery details!`
     ].join('\n');
 
-    const whatsappUrl = `https://wa.me/${BRAND_CONFIG.socials.whatsapp}?text=${encodeURIComponent(messageText)}`;
-    window.open(whatsappUrl, '_blank');
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(messageText);
+      setCopiedToast(true);
+      setTimeout(() => setCopiedToast(false), 4000);
+    }
+
+    const igUrl = `https://ig.me/m/${BRAND_CONFIG.socials.instagram}`;
+    window.open(igUrl, '_blank');
   };
 
   return (
@@ -178,19 +183,24 @@ export default function CartDrawer({
                 </div>
               </div>
 
-              {/* WhatsApp VIP Concierge Checkout Button - Large 52px touch area */}
+              {/* Instagram Direct Checkout Button */}
+              {copiedToast && (
+                <div className="p-2.5 rounded-lg bg-pink-500/10 border border-pink-500/20 text-[11px] font-bold text-pink-600 dark:text-pink-400 text-center animate-pulse">
+                  📋 Order details copied! Opening Instagram DM (@{BRAND_CONFIG.socials.instagram})...
+                </div>
+              )}
               <button
-                onClick={handleWhatsAppOrder}
-                className="w-full rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all flex items-center justify-center gap-2 sm:gap-2.5 min-h-[52px]"
+                onClick={handleInstagramOrder}
+                className="w-full rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 active:scale-95 py-4 text-xs sm:text-sm font-bold uppercase tracking-widest text-white shadow-lg transition-all flex items-center justify-center gap-2 sm:gap-2.5 min-h-[52px]"
               >
-                <span className="text-base">💬</span>
-                <span>ORDER VIA WHATSAPP CONCIERGE →</span>
+                <span className="text-base">📸</span>
+                <span>BUY VIA INSTAGRAM DM →</span>
               </button>
 
               <div className="flex items-center justify-center gap-2 text-[9px] sm:text-[10px] font-bold text-gray-400 uppercase tracking-widest">
-                <span>INSTANT VIP INVOICE</span>
+                <span>DIRECT INSTAGRAM MSG (@{BRAND_CONFIG.socials.instagram})</span>
                 <span>•</span>
-                <span>DIRECT PERSONAL STYLING</span>
+                <span>INSTANT PAY & DISPATCH</span>
               </div>
             </div>
           )}

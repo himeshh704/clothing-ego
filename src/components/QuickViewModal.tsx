@@ -43,19 +43,20 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
     setFitRecommendation(`Our silhouette algorithm recommends SIZE ${rec} for a tailored street drape based on ${h}cm and ${w}kg.`);
   };
 
-  const handleWhatsAppEnquire = () => {
-    const sizeToUse = selectedSize || product.sizes[0] || 'M';
-    const messageText = [
-      `Hello *${BRAND_CONFIG.name} Concierge*! 👋`,
-      `I would like to enquire about the following silhouette:\n`,
-      `• *Item:* ${product.title}`,
-      `• *Size:* ${sizeToUse}`,
-      `• *Price:* ₹ ${product.price.toLocaleString('en-IN')}`,
-      `\nPlease let me know availability and delivery details across my city.`
-    ].join('\n');
+  const [copiedToast, setCopiedToast] = useState(false);
 
-    const whatsappUrl = `https://wa.me/${BRAND_CONFIG.socials.whatsapp}?text=${encodeURIComponent(messageText)}`;
-    window.open(whatsappUrl, '_blank');
+  const handleInstagramEnquire = () => {
+    const sizeToUse = selectedSize || product.sizes[0] || 'M';
+    const messageText = `Hey @${BRAND_CONFIG.socials.instagram}! 👋 I want to buy/enquire about ${product.title} (Size: ${sizeToUse}) - ₹ ${product.price.toLocaleString('en-IN')}`;
+
+    if (navigator.clipboard) {
+      navigator.clipboard.writeText(messageText);
+      setCopiedToast(true);
+      setTimeout(() => setCopiedToast(false), 4000);
+    }
+
+    const igUrl = `https://ig.me/m/${BRAND_CONFIG.socials.instagram}`;
+    window.open(igUrl, '_blank');
   };
 
   return (
@@ -239,6 +240,11 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
 
           {/* Sticky/Fixed Bottom Actions on Mobile - Side by side or stacked with 48px+ touch targets */}
           <div className="space-y-3 pt-4 border-t border-gray-200 dark:border-white/10 sticky sm:static bottom-0 bg-white dark:bg-[#18181b] pb-2 sm:pb-0">
+            {copiedToast && (
+              <div className="p-2 rounded-lg bg-pink-500/10 border border-pink-500/20 text-[11px] font-bold text-pink-600 dark:text-pink-400 text-center animate-pulse">
+                📋 Message copied! Opening Instagram DM (@{BRAND_CONFIG.socials.instagram})...
+              </div>
+            )}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5 sm:gap-3">
               <button
                 onClick={() => {
@@ -252,10 +258,10 @@ export default function QuickViewModal({ product, onClose, onAddToCart }: QuickV
               </button>
 
               <button
-                onClick={handleWhatsAppEnquire}
-                className="w-full min-h-[48px] sm:min-h-[50px] rounded-xl bg-emerald-600 hover:bg-emerald-700 active:scale-95 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all flex items-center justify-center gap-2"
+                onClick={handleInstagramEnquire}
+                className="w-full min-h-[48px] sm:min-h-[50px] rounded-xl bg-gradient-to-r from-purple-600 via-pink-600 to-rose-500 hover:opacity-95 active:scale-95 py-3.5 text-xs font-bold uppercase tracking-widest text-white shadow-md transition-all flex items-center justify-center gap-2"
               >
-                <span>💬 ENQUIRE ON WHATSAPP</span>
+                <span>📸 ORDER ON INSTAGRAM</span>
               </button>
             </div>
 

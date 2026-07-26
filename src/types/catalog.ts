@@ -14,7 +14,7 @@ export interface Product {
   emiText: string;
   imagePrimary: string;
   imageSecondary: string;
-  badge?: 'SALE' | 'NEW' | 'SAVE 20+' | 'BEST SELLER';
+  badge?: 'SALE' | 'NEW' | 'SAVE 20+' | 'BEST SELLER' | 'HOT TREND' | 'TRENDY' | 'TRENDING' | 'MUST HAVE' | 'POPULAR' | 'CLEARANCE';
   swatches: ColorSwatch[];
   sizes: string[];
 }
